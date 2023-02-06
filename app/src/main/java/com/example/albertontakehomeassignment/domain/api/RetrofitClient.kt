@@ -22,5 +22,5 @@ object RetrofitClient {
 
     private val endpoint by lazy { retrofit.create(AcromineService::class.java) }
 
-    fun getAcromineEndpoint() = endpoint
+    fun getAcromineEndpoint(): AcromineService = endpoint
 }
