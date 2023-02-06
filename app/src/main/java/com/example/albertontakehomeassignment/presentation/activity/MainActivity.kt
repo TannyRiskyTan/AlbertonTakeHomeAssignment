@@ -1,7 +1,8 @@
-package com.example.albertontakehomeassignment
+package com.example.albertontakehomeassignment.presentation.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.albertontakehomeassignment.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
