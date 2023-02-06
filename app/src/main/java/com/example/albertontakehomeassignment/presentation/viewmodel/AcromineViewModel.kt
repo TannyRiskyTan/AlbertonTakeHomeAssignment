@@ -1,33 +1,38 @@
 package com.example.albertontakehomeassignment.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.albertontakehomeassignment.domain.model.AcromineResponse
+import androidx.lifecycle.*
+import com.example.albertontakehomeassignment.domain.model.Lf
 import com.example.albertontakehomeassignment.domain.repository.AcromineRepository
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class AcromineViewModel(
+open class AcromineViewModel(
     private val repository: AcromineRepository
-): ViewModel() {
-    private val _acromineList = MutableLiveData<Result<AcromineResponse?>>()
+) : ViewModel() {
+    private val _longFormList = MutableLiveData<Result<List<Lf>>?>()
 
-    fun observeAcromineList() = _acromineList as LiveData<Result<AcromineResponse?>>
+    fun observeLongFormList() = _longFormList as LiveData<Result<List<Lf>>?>
 
-    fun getAcromineWithQuery(query: String?) {
+    fun getLongFormWithQuery(query: String?) {
         viewModelScope.launch {
             val result = try {
-                Result.success(repository.getAcromineWithQuery(query))
+                query?.let {
+                    val a = repository.getAcromineWithQuery(query)
+                    println(a)
+                    Result.success(repository.getAcromineWithQuery(query).first().lfs)
+                }
             } catch (e: Exception) {
-                Result.failure<AcromineResponse>(e)
+                Result.failure(e)
             } finally {
-                Result.failure<AcromineResponse>(
-                    Exception("Request Fails")
-                )
+                Result.failure<List<Lf>>(Exception("Request Fails"))
             }
-            _acromineList.postValue(result)
+            _longFormList.postValue(result)
         }
+    }
+}
+
+class AcromineViewModelFactory(private val repository: AcromineRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return AcromineViewModel(repository) as T
     }
 }

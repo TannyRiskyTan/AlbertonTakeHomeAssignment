@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AlbertonTakeHomeAssignment</string>
+    <string name="edit_text_hint">Please type your acronym or initialism</string>
+    <string name="button_text">Search</string>
 </resources>

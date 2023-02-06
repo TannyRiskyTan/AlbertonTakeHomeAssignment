@@ -6,6 +6,12 @@ plugins {
 android {
     compileSdk 32
 
+    kotlinOptions{
+        freeCompilerArgs += [
+                "-Xjvm-default=all",
+        ]
+    }
+
     defaultConfig {
         applicationId "com.example.albertontakehomeassignment"
         minSdk 21
@@ -14,6 +20,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        dataBinding true
     }
 
     buildTypes {
