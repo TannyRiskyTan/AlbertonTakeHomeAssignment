@@ -1,5 +1,7 @@
 package com.example.albertontakehomeassignment.presentation.activity
 
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -52,8 +54,24 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             val newQuery = editText.text.toString()
-            viewModel.getLongFormWithQuery(newQuery)
+            when {
+                !isNetWorkAvailable(this) ->
+                    Toast.makeText(this, "Network not available", Toast.LENGTH_SHORT)
+                        .show()
+                newQuery.isBlank() ->
+                    Toast.makeText(this, "Please don't leave input empty", Toast.LENGTH_SHORT)
+                        .show()
+                else ->
+                    viewModel.getLongFormWithQuery(newQuery)
+
+            }
         }
 
+    }
+
+    private fun isNetWorkAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return connectivityManager.activeNetworkInfo?.isConnected ?: false
     }
 }
