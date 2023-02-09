@@ -3,6 +3,7 @@ package com.example.albertontakehomeassignment.presentation.viewmodel
 import androidx.lifecycle.*
 import com.example.albertontakehomeassignment.domain.model.Lf
 import com.example.albertontakehomeassignment.domain.repository.AcromineRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -14,7 +15,7 @@ open class AcromineViewModel(
     fun observeLongFormList() = _longFormList as LiveData<Result<List<Lf>>?>
 
     fun getLongFormWithQuery(query: String?) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = try {
                 query?.let {
                     val a = repository.getAcromineWithQuery(query)
